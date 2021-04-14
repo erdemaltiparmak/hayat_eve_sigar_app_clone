@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:hayat_eve_sigar/constants.dart';
 
 import 'main_page.dart';
 
@@ -22,10 +24,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff252f3a),
+      backgroundColor: kSplashBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Color(0xff56A632),
-        toolbarHeight: 10,
+        toolbarHeight: 0,
+        backwardsCompatibility: false,
+        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: kPrimaryColor),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Text(
                 "Hayat Eve Sığar",
                 style: TextStyle(
-                    color: Color(0xff56A632),
+                    color: kPrimaryColor,
                     fontSize: 29,
                     fontWeight: FontWeight.bold),
               )
