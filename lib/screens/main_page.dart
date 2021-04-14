@@ -7,6 +7,22 @@ class MainPage extends StatefulWidget {
 }
 
 double opacity = 0;
+int _selectedIndex = 1;
+final List screens = [
+  Scaffold(),
+  Scaffold(
+    backgroundColor: kSplashBackgroundColor,
+  ),
+  Scaffold(
+    body: SingleChildScrollView(
+      child: ListView(
+        padding: EdgeInsets.all(8),
+        children: buildDrawerMenuList(),
+      ),
+    ),
+  ),
+  Scaffold(),
+];
 
 class _MainPageState extends State<MainPage> {
   @override
@@ -30,37 +46,76 @@ class _MainPageState extends State<MainPage> {
             data:
                 Theme.of(context).copyWith(canvasColor: kSplashBackgroundColor),
             child: Drawer(
-              child: ListView(
-                padding: EdgeInsets.zero,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  DrawerHeader(
-                    child: Container(
-                      color: Colors.amber,
+                  Container(
+                    padding: EdgeInsets.zero,
+                    height: MediaQuery.of(context).size.height / 6,
+                    child: Image.asset(
+                      "assets/images/drawerheader.jpg",
+                      fit: BoxFit.cover,
                     ),
-                    margin: EdgeInsets.zero,
-                    padding: EdgeInsets.only(top: -statusBarHeight),
                   ),
                 ],
               ),
-              // child: Column(
-
-              //   children: [
-              //     // Container(
-              //     //   color: Colors.green,
-              //     //   width: double.maxFinite,
-              //     //   height: MediaQuery.of(context).size.height / 4.7,
-              //     // )
-              //   ],
-              // ),
               elevation: 0,
             ),
-          ), //write your drawer code
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: onTabTapped, // new
+
+          backgroundColor: kSplashBackgroundColor,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: kPrimaryColor,
+          unselectedItemColor: Colors.blueGrey,
+          selectedFontSize: 14,
+          unselectedFontSize: 14,
+          iconSize: 28,
+          elevation: 0,
+          currentIndex: _selectedIndex,
+          items: [
+            BottomNavigationBarItem(
+                icon: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color:
+                        _selectedIndex == 0 ? kPrimaryColor : Colors.blueGrey,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(1.0),
+                    child: Icon(
+                      Icons.home,
+                      color: kSplashBackgroundColor,
+                    ),
+                  ),
+                ),
+                label: "Ana Sayfa"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.show_chart_outlined), label: "Yoğunluk"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.people), label: "Yakınlarım"),
+            BottomNavigationBarItem(
+                icon: Container(
+                    decoration: BoxDecoration(
+                        color: _selectedIndex == 3
+                            ? kPrimaryColor
+                            : Colors.blueGrey,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Icon(
+                        Icons.person,
+                        color: kSplashBackgroundColor,
+                      ),
+                    )),
+                label: "Hesabım"),
+          ],
         ),
         body: Stack(
           children: [
-            Container(
-              color: kSplashBackgroundColor,
-            ),
+            screens[_selectedIndex],
             Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
@@ -89,7 +144,7 @@ class _MainPageState extends State<MainPage> {
           style: TextStyle(
               color: Colors.white,
               fontSize: 17.4,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
               fontFamily: 'Schyler'),
         ),
         SizedBox(
@@ -104,4 +159,10 @@ class _MainPageState extends State<MainPage> {
       )
     ],
   );
+
+  void onTabTapped(int value) {
+    setState(() {
+      _selectedIndex = value;
+    });
+  }
 }
