@@ -13,14 +13,7 @@ final List screens = [
   Scaffold(
     backgroundColor: kSplashBackgroundColor,
   ),
-  Scaffold(
-    body: SingleChildScrollView(
-      child: ListView(
-        padding: EdgeInsets.all(8),
-        children: buildDrawerMenuList(),
-      ),
-    ),
-  ),
+  Scaffold(),
   Scaffold(),
 ];
 
@@ -47,14 +40,50 @@ class _MainPageState extends State<MainPage> {
                 Theme.of(context).copyWith(canvasColor: kSplashBackgroundColor),
             child: Drawer(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
+                  Padding(
                     padding: EdgeInsets.zero,
-                    height: MediaQuery.of(context).size.height / 6,
                     child: Image.asset(
                       "assets/images/drawerheader.jpg",
-                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(drawerMenuItems[0].title),
+                    leading: Icon(drawerMenuItems[0].icon),
+                    onTap: () {
+                      print("object");
+                    },
+                  ),
+                  ListTile(
+                    title: Text(drawerMenuItems[1].title),
+                    leading: Icon(drawerMenuItems[1].icon),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: ScrollPhysics(),
+                      child: Column(
+                        children: [
+                          MediaQuery.removePadding(
+                            removeTop: true,
+                            context: context,
+                            child: ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: drawerMenuItems.length,
+                                itemBuilder: (context, index) {
+                                  while (index < drawerMenuItems.length - 2) {
+                                    return ListTile(
+                                      title: Text(
+                                          drawerMenuItems[index + 2].title),
+                                      leading:
+                                          Icon(drawerMenuItems[index + 2].icon),
+                                    );
+                                  }
+                                  return null;
+                                }),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

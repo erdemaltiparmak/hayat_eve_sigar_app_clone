@@ -25,18 +25,3 @@ List<DrawerMenuItem> drawerMenuItems = [
   DrawerMenuItem(icon: FontAwesomeIcons.globe, title: "Yardım"),
   DrawerMenuItem(icon: FontAwesomeIcons.globe, title: "Hakkımızda"),
 ];
-
-List<DrawerMenuItemBuilder> buildDrawerMenuList() {
-  return drawerMenuItems.map((c) => DrawerMenuItemBuilder(c)).toList();
-}
-
-class DrawerMenuItemBuilder extends StatelessWidget {
-  DrawerMenuItemBuilder(DrawerMenuItem d)
-
-      return
-
-
-  @override
-  Widget build(BuildContext context) {
--    throw UnimplementedError();
-  }}
