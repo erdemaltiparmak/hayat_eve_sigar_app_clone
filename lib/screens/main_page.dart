@@ -36,60 +36,8 @@ class _MainPageState extends State<MainPage> {
               top: statusBarHeight + appBar.preferredSize.height),
           width: MediaQuery.of(context).size.width / 1.37,
           child: Theme(
-            data:
-                Theme.of(context).copyWith(canvasColor: kSplashBackgroundColor),
-            child: Drawer(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.zero,
-                    child: Image.asset(
-                      "assets/images/drawerheader.jpg",
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(drawerMenuItems[0].title),
-                    leading: Icon(drawerMenuItems[0].icon),
-                    onTap: () {
-                      print("object");
-                    },
-                  ),
-                  ListTile(
-                    title: Text(drawerMenuItems[1].title),
-                    leading: Icon(drawerMenuItems[1].icon),
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      physics: ScrollPhysics(),
-                      child: Column(
-                        children: [
-                          MediaQuery.removePadding(
-                            removeTop: true,
-                            context: context,
-                            child: ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: drawerMenuItems.length,
-                                itemBuilder: (context, index) {
-                                  while (index < drawerMenuItems.length - 2) {
-                                    return ListTile(
-                                      title: Text(
-                                          drawerMenuItems[index + 2].title),
-                                      leading:
-                                          Icon(drawerMenuItems[index + 2].icon),
-                                    );
-                                  }
-                                  return null;
-                                }),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              elevation: 0,
-            ),
+            data: Theme.of(context).copyWith(canvasColor: Color(0xFF1D1F1F)),
+            child: _Drawer(context),
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -154,6 +102,59 @@ class _MainPageState extends State<MainPage> {
         ));
   }
 
+  Drawer _Drawer(BuildContext context) {
+    return Drawer(
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.zero,
+            child: Image.asset(
+              "assets/images/drawerheader.jpg",
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 7, bottom: 1),
+            child: Column(
+              children: [
+                DrawerItem(
+                  drawerMenuItem: drawerMenuItems[0],
+                ),
+                DrawerItem(
+                  drawerMenuItem: drawerMenuItems[1],
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              physics: ScrollPhysics(),
+              child: Column(
+                children: [
+                  MediaQuery.removePadding(
+                    removeTop: true,
+                    context: context,
+                    child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: drawerMenuItems.length,
+                        itemBuilder: (context, index) {
+                          while (index < drawerMenuItems.length - 2) {
+                            return DrawerItem(
+                                drawerMenuItem: drawerMenuItems[index + 2]);
+                          }
+                          return null;
+                        }),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      elevation: 0,
+    );
+  }
+
   AppBar appBar = AppBar(
     shadowColor: kPrimaryColor,
     elevation: 0,
@@ -193,5 +194,47 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       _selectedIndex = value;
     });
+  }
+}
+
+class DrawerItem extends StatelessWidget {
+  final DrawerMenuItem drawerMenuItem;
+
+  const DrawerItem({
+    Key key,
+    @required this.drawerMenuItem,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 7, left: 7, right: 7),
+      decoration: BoxDecoration(
+          color: kSplashBackgroundColor,
+          borderRadius: BorderRadius.circular(18)),
+      child: ListTile(
+        trailing: Icon(
+          Icons.arrow_forward_ios,
+          color: kPrimaryColor,
+        ),
+        title: Align(
+          alignment: Alignment(-1.2, 0),
+          child: Text(
+            drawerMenuItem.title,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.normal),
+          ),
+        ),
+        leading: Icon(
+          drawerMenuItem.icon,
+          color: kPrimaryColor,
+        ),
+        onTap: () {
+          print("object");
+        },
+      ),
+    );
   }
 }
